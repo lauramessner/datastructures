@@ -21,8 +21,10 @@ public class SymbolBalance implements SymbolBalanceInterface {
     MismatchError me = new MismatchError(lineNb, readChar, symMatch);
     EmptyStackError es = new EmptyStackError(lineNb);
     //NonEmptyStackError nes = new NonEmptyStackError(symStack.peek(), symStack.size());
+    
     @Override
     public void setFile(String filename) {
+        
         myFile = new File(filename);
     }
     
@@ -41,7 +43,8 @@ public class SymbolBalance implements SymbolBalanceInterface {
 
                     //ignore characters between comments      
                     if((readChar == '/') && (readCharNext == '*')) {
-                        readChar = '*';                     
+                        readChar = '*';
+                        System.out.println("ln27");                     
                         symStack.push(readChar); //push '*' 
                         //commentNb = 1;
                     }  
@@ -60,6 +63,7 @@ public class SymbolBalance implements SymbolBalanceInterface {
                     if((readChar == '"') && (quoteNb == 1)) {
                         //the while loop ensures we ignore chars between quotes
                         while(symStack.pop() != '"') {
+                            System.out.println("ln27");
                             symStack.pop();
                             quoteNb = 0;
                         }
@@ -67,13 +71,14 @@ public class SymbolBalance implements SymbolBalanceInterface {
                
                     if(((readChar == '{') || (readChar == '[') || (readChar == '(')) && 
                        (symStack.isEmpty() == true)) {
+                        System.out.println("ln27");
                         symStack.push(readChar);
                     }
                     else if(((readChar == '}') || (readChar == ']') || (readChar == ')')) && 
                              (symStack.isEmpty() == true)) {
                         return es;
                     }
-
+                    System.out.println("ln81");
                     //peek at the symbol in the stack to match it with its closing
                     symMatch = symStack.peek();
                     if(((symMatch=='{') && (readChar=='}')) || 
